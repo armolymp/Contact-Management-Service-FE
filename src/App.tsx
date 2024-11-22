@@ -4,6 +4,7 @@ import Header from "./components/Header";
 import Navigation from "./components/NavigationComponent";
 import HomePage from "./pages/HomePage";
 import AddUserPage from "./pages/AddUserPage";
+import Footer from "./components/Footer";
 
 const App: React.FC = () => {
   return (
@@ -16,6 +17,7 @@ const App: React.FC = () => {
             <Route path="/add-user" element={<AddUserPage />} />
           </Routes>
         </div>
+        <Footer/>
       </div>
     </Router>
   );
