@@ -21,7 +21,7 @@ const EditUserModal: React.FC<EditUserModalProps> = ({ isOpen, onClose, onSubmit
     onSubmit: (values) => {
       onSubmit(values);
     },
-    enableReinitialize: true, // Update form values when initialValues change
+    enableReinitialize: true,
   });
 
   if (!isOpen) return null;

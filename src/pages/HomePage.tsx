@@ -5,7 +5,9 @@ const HomePage: React.FC = () => {
   return (
     <div className="container mx-auto p-4">
       <div className="bg-white shadow-md rounded-lg p-6 mb-8 border border-gray-300">
-        <h2 className="text-2xl font-bold mb-4 text-gray-800">Welcome to LiMark Contact Management System!</h2>
+        <h2 className="text-2xl font-bold mb-4 text-gray-800 text-center">
+          Welcome to LiMark Contact Management System!
+        </h2>
         <p className="text-gray-600 mb-4">
           Manage your contacts efficiently and keep your data organized. Follow these steps to use the system:
         </p>
@@ -18,7 +20,9 @@ const HomePage: React.FC = () => {
       </div>
 
       <div>
-        <h2 className="text-2xl font-bold mb-4 text-gray-800">User - Contact List</h2>
+        <h2 className="text-2xl font-bold mb-4 text-gray-800 text-center">
+          User - Contact List
+        </h2>
         <ContactList />
       </div>
     </div>
