@@ -3,7 +3,8 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { createContact } from "../api/contactApi";
-import SuccessModal from "./Modals/SuccessModal"
+import SuccessModal from "./Modals/SuccessModal";
+import ErrorModal from "./Modals/ErrorModal"; // Import the ErrorModal component
 
 interface Contact {
   firstName: string;
@@ -14,13 +15,20 @@ interface Contact {
 
 const ContactForm: React.FC = () => {
   const queryClient = useQueryClient();
-  const [isModalOpen, setModalOpen] = useState(false); // Modal state
+  const [isSuccessModalOpen, setSuccessModalOpen] = useState(false);
+  const [isErrorModalOpen, setErrorModalOpen] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const mutation = useMutation({
     mutationFn: (newContact: Contact) => createContact(newContact),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["contacts"] });
-      setModalOpen(true); // Open the success modal on success
+      setSuccessModalOpen(true);
+    },
+    onError: (error: any) => {
+      const message = error?.response?.data?.message || "User already exists";
+      setErrorMessage(message);
+      setErrorModalOpen(true);
     },
   });
 
@@ -58,9 +66,7 @@ const ContactForm: React.FC = () => {
           </ul>
         </div>
 
-  
         <div className="space-y-4">
-
           <div className="flex flex-col md:flex-row md:items-center md:space-x-4">
             <label htmlFor="firstName" className="md:w-1/4 font-medium">
               First Name
@@ -102,6 +108,7 @@ const ContactForm: React.FC = () => {
               )}
             </div>
           </div>
+
           <div className="flex flex-col md:flex-row md:items-center md:space-x-4">
             <label htmlFor="email" className="md:w-1/4 font-medium">
               Email
@@ -122,6 +129,7 @@ const ContactForm: React.FC = () => {
               )}
             </div>
           </div>
+
           <div className="flex flex-col md:flex-row md:items-center md:space-x-4">
             <label htmlFor="phoneNumber" className="md:w-1/4 font-medium">
               Phone Number
@@ -154,7 +162,12 @@ const ContactForm: React.FC = () => {
           </button>
         </div>
       </form>
-      <SuccessModal isOpen={isModalOpen} onClose={() => setModalOpen(false)} />
+      <SuccessModal isOpen={isSuccessModalOpen} onClose={() => setSuccessModalOpen(false)} />
+      <ErrorModal
+        isOpen={isErrorModalOpen}
+        onClose={() => setErrorModalOpen(false)}
+        message={errorMessage}
+      />
     </>
   );
 };
